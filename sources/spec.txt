@@ -1,0 +1,3 @@
+Files will be entered in the folowwing format:
+<problem_name>_<team_no>.cpp
+Eg: bigbang_1.cpp
