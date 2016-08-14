@@ -1,2 +1,0 @@
-clang: error: argument to '-o' is missing (expected 1 value)
-clang: error: no input files
