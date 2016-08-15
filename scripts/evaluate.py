@@ -1,5 +1,5 @@
 from whitespace_cleaner import *
-import sys, os, filecmp, subprocess
+import sys, os, subprocess
 
 if len(sys.argv) < 3:
 	print("Invalid usage!")
@@ -38,20 +38,22 @@ if ext == ".cpp":
 		output = p.communicate(input=probstr)[0]
 	else:
 		print("Compilation Fail.")
+		sys.exit(0)
 elif ext == ".py":
-	output = subprocess.check_output(["python",sourcefile,"<", problem])
+		p = subprocess.Popen(['python', sourcefile], stdout=subprocess.PIPE, stdin=subprocess.PIPE,stderr=subprocess.PIPE)
+		output = p.communicate(input=probstr)[0]
 
 elif ext == ".java":
 	subprocess.run(["javac",sourcefile,"-d", "../binary"]);
-	binary += ".class"
-	if os.path.isfile(binary):
+	if os.path.isfile(binary + ".class"):
 		print("Compilation Success.")
-		p = subprocess.Popen(["java",binary], stdout=subprocess.PIPE, stdin=subprocess.PIPE,stderr=subprocess.PIPE)
+		p = subprocess.Popen(['java','-cp', '../binary', fnamestem], stdout=subprocess.PIPE, stdin=subprocess.PIPE,stderr=subprocess.PIPE)
 		output = p.communicate(input=probstr)[0]
 
 
 	else:
 		print("Compilation Fail.")
+		sys.exit(0)
 
 output = clean(output)
 
